@@ -51,7 +51,7 @@ data:
           - targets: [blackbox-exporter.default.svc.cluster.local:9115]
       - job_name: github-exporter
         metrics_path: /metrics
-        scrape_interval: 15m
+        scrape_interval: 5m
         static_configs:
           - targets: [github-exporter.default.svc.cluster.local:9171]
       - job_name: node-exporter
