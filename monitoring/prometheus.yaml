@@ -49,6 +49,11 @@ data:
         metrics_path: /metrics
         static_configs:
           - targets: [blackbox-exporter.default.svc.cluster.local:9115]
+      - job_name: github-exporter
+        metrics_path: /metrics
+        scrape_interval: 15m
+        static_configs:
+          - targets: [github-exporter.default.svc.cluster.local:9171]
       - job_name: node-exporter
         kubernetes_sd_configs:
           - role: endpoints
@@ -107,6 +112,9 @@ data:
           - targets: [http://argocd-server.argocd.svc.cluster.local/healthz]
             labels:
               app: argocd
+          - targets: [http://github-exporter.default.svc.cluster.local:9171/metrics]
+            labels:
+              app: github-exporter
         relabel_configs:
           - source_labels: [__address__]
             target_label: __param_target

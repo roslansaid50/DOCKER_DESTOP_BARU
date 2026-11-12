@@ -141,3 +141,6 @@ spec:
         - name: grafana-cluster-dashboard
           configMap:
             name: grafana-cluster-dashboard
+        - name: grafana-github-dashboard
+          configMap:
+            name: grafana-github-dashboard

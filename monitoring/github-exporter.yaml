@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: github-exporter
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: github-exporter
+  template:
+    metadata:
+      labels:
+        app: github-exporter
+    spec:
+      containers:
+        - name: github-exporter
+          image: githubexporter/github-exporter:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: REPOS
+              value: roslansaid50/DOCKER_DESTOP_BARU
+            - name: GITHUB_RATE_LIMIT_ENABLED
+              value: "false"
+            - name: FETCH_REPO_RELEASES_ENABLED
+              value: "true"
+          ports:
+            - name: metrics
+              containerPort: 9171
+          readinessProbe:
+            tcpSocket:
+              port: metrics
+            initialDelaySeconds: 10
+            periodSeconds: 30
+          livenessProbe:
+            tcpSocket:
+              port: metrics
+            initialDelaySeconds: 30
+            periodSeconds: 60
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: github-exporter
+  namespace: default
+  labels:
+    app: github-exporter
+spec:
+  type: ClusterIP
+  selector:
+    app: github-exporter
+  ports:
+    - name: metrics
+      port: 9171
+      targetPort: metrics
+      protocol: TCP
