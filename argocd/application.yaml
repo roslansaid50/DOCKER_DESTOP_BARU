@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/roslansaid/DOCKER_DESTOP.git
+    repoURL: https://github.com/roslansaid50/DOCKER_DESTOP_BARU.git
     targetRevision: main
     path: wordpress
     directory:
