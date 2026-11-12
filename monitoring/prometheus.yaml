@@ -112,9 +112,6 @@ data:
           - targets: [http://argocd-server.argocd.svc.cluster.local/healthz]
             labels:
               app: argocd
-          - targets: [http://github-exporter.default.svc.cluster.local:9171/metrics]
-            labels:
-              app: github-exporter
         relabel_configs:
           - source_labels: [__address__]
             target_label: __param_target
