@@ -37,6 +37,18 @@ data:
       - job_name: kube-state-metrics
         static_configs:
           - targets: [kube-state-metrics.default.svc.cluster.local:8080]
+      - job_name: prometheus
+        metrics_path: /metrics
+        static_configs:
+          - targets: [prometheus.default.svc.cluster.local:9090]
+      - job_name: grafana
+        metrics_path: /metrics
+        static_configs:
+          - targets: [grafana.default.svc.cluster.local:3000]
+      - job_name: blackbox-exporter
+        metrics_path: /metrics
+        static_configs:
+          - targets: [blackbox-exporter.default.svc.cluster.local:9115]
       - job_name: node-exporter
         kubernetes_sd_configs:
           - role: endpoints
@@ -80,6 +92,21 @@ data:
           - targets: [http://ojs.default.svc.cluster.local/index/en/install]
             labels:
               app: ojs
+          - targets: [http://phpmyadmin.default.svc.cluster.local/]
+            labels:
+              app: phpmyadmin
+          - targets: [http://grafana.default.svc.cluster.local:3000/api/health]
+            labels:
+              app: grafana
+          - targets: [http://prometheus.default.svc.cluster.local:9090/-/ready]
+            labels:
+              app: prometheus
+          - targets: [http://headlamp.kube-system.svc.cluster.local/]
+            labels:
+              app: headlamp
+          - targets: [http://argocd-server.argocd.svc.cluster.local/healthz]
+            labels:
+              app: argocd
         relabel_configs:
           - source_labels: [__address__]
             target_label: __param_target
